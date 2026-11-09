@@ -1,0 +1,10 @@
+{
+  "claims": {
+    "files": ["docs/spec/*.md"],
+    "labels": {
+      "Implemented": { "evidence": "test" },
+      "Specified": {}
+    },
+    "testPrefixes": ["test('"]
+  }
+}
