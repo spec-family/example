@@ -1,0 +1,88 @@
+name: specs
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  # The documents against the code, each other and the repository. Story 2
+  # (story/claim-without-evidence) is red here.
+  specs:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # spec-graph looks in git for the commits a checklist names, and
+          # stops in a shallow clone rather than guess.
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - name: Tests
+        run: npm test
+      - name: The code against the rules the documents state (spec-guard)
+        if: ${{ !cancelled() }}
+        run: npx --no-install @spec-family/spec-guard --format github
+      - name: Each claim against its evidence (spec-guard claims)
+        if: ${{ !cancelled() }}
+        run: npx --no-install @spec-family/spec-guard claims --format github
+      - name: The documents against each other and the repository (spec-graph)
+        if: ${{ !cancelled() }}
+        run: npx --no-install @spec-family/spec-graph check --format github
+      - name: The briefs (spec-brief lint)
+        if: ${{ !cancelled() }}
+        run: npx --no-install @spec-family/spec-brief lint --format github
+      - name: The briefs' waves (spec-brief matrix)
+        if: ${{ !cancelled() }}
+        run: npx --no-install @spec-family/spec-brief matrix --format github
+
+  # A round of agent work against its brief. Story 1
+  # (story/brief-001-write-refused) is red here.
+  round:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # The audit measures a round from main.
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - name: The live briefs' premises (spec-harness premises)
+        run: npx --no-install @spec-family/spec-harness premises --format github
+      # spec-harness names the round's brief from the pull request's branch:
+      # brief/{id}, brief-{id}, or either after one more name and a slash. On
+      # any other branch no round is under way, and the audit would have no
+      # brief to read.
+      - name: The round, on a brief's branch (spec-harness audit)
+        if: >-
+          ${{ !cancelled() && github.event_name == 'pull_request' && (
+          startsWith(github.head_ref, 'brief/') || startsWith(github.head_ref, 'brief-') ||
+          contains(github.head_ref, '/brief/') || contains(github.head_ref, '/brief-')) }}
+        run: npx --no-install @spec-family/spec-harness audit --format github
+
+  # The stories in README.md against the stories as they play. A story's
+  # branch already holds its story, so the job skips it.
+  readme:
+    if: ${{ !startsWith(github.head_ref, 'story/') }}
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - run: npm run readme:check

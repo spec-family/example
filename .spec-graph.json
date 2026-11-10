@@ -1,0 +1,13 @@
+{
+  "patterns": ["*.md", "docs/**/*.md", "briefs/**/*.md"],
+  "historyPatterns": ["briefs/archive/**"],
+  "claims": {
+    "files": ["docs/spec/*.md"],
+    "labels": { "Implemented": "done", "Specified": "open" }
+  },
+  "checklists": ["ROADMAP.md"],
+  "orientation": {
+    "files": ["AGENTS.md", "CLAUDE.md"],
+    "extensions": [".md", ".js", ".mjs", ".json"]
+  }
+}

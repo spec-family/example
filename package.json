@@ -1,0 +1,25 @@
+{
+  "name": "spec-family-example",
+  "version": "0.0.0",
+  "private": true,
+  "description": "A small lending library kept to its documents by the spec-family tools: an agent's write refused, a claim without evidence turned red in CI.",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "demo": "node scripts/demo.mjs",
+    "test": "node --test",
+    "check": "node scripts/check.mjs",
+    "readme": "node scripts/demo.mjs --write-readme",
+    "readme:check": "node scripts/demo.mjs --check-readme",
+    "story": "node scripts/demo.mjs --apply"
+  },
+  "devDependencies": {
+    "@spec-family/spec-brief": "0.13.1",
+    "@spec-family/spec-graph": "0.24.1",
+    "@spec-family/spec-guard": "0.33.1",
+    "@spec-family/spec-harness": "0.24.1"
+  }
+}
