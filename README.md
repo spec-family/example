@@ -5,12 +5,14 @@ documents by the [spec-family](https://github.com/spec-family) tools. Two
 stories show what they catch. Each is told below with what the tools print,
 and each is a pull request left open, red in CI for that story alone:
 
-1. **A write refused.** A brief protects the loan record. An agent's write
-   there is refused; its write through the shell is not, and the audit finds
-   it at the end of the round.
-2. **A claim without evidence.** A promise marked `Implemented` with no test
-   behind it, a roadmap item ticked for a commit that was never made, and
-   agent instructions that name a file that does not exist. CI catches each.
+1. **A write refused** ([#2](https://github.com/spec-family/example/pull/2)).
+   A brief protects the loan record. An agent's write there is refused; its
+   write through the shell is not, and the audit finds it at the end of the
+   round.
+2. **A claim without evidence** ([#3](https://github.com/spec-family/example/pull/3)).
+   A promise marked `Implemented` with no test behind it, a roadmap item
+   ticked for a commit that was never made, and agent instructions that name
+   a file that does not exist. CI catches each.
 
 ## Run it
 
@@ -118,9 +120,10 @@ Exit `1`.
 
 <!-- /story:write-refused -->
 
-In CI, the `round` job runs the audit on a brief's branch. The pull request
-from [`story/brief-001-write-refused`](https://github.com/spec-family/example/compare/main...story/brief-001-write-refused)
-is red there and nowhere else: the tests pass, and so does every other check.
+In CI, the `round` job runs the audit on a brief's branch. Pull request
+[#2](https://github.com/spec-family/example/pull/2), from
+`story/brief-001-write-refused`, is red there and nowhere else: the tests
+pass, and so does every other check.
 
 With git's pre-commit hook installed (`spec-harness init --git-hook --write`),
 the commit itself is refused, for any agent or none. The hook lives on one
@@ -210,9 +213,9 @@ Exit `1`.
 
 <!-- /story:claim-without-evidence -->
 
-In CI, both run in the `specs` job, which is red on the pull request from
-[`story/claim-without-evidence`](https://github.com/spec-family/example/compare/main...story/claim-without-evidence)
-for these three findings and nothing else.
+In CI, both run in the `specs` job, which is red on pull request
+[#3](https://github.com/spec-family/example/pull/3), from
+`story/claim-without-evidence`, for these three findings and nothing else.
 
 ## In CI
 
