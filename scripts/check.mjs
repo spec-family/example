@@ -3,9 +3,9 @@
  * code among them: 0 when every one is clean, 1 when one found something, 2
  * when one could not answer.
  *
- * On a branch that names a brief, as `brief/001-...` or `story/brief-001-...`
- * do, it runs the round's audit too; on any other branch no round is under
- * way, and the audit would have no brief to read.
+ * The round's audit runs with --if-round: on a branch that names a brief, as
+ * `brief/001-...` or `story/brief-001-...` do, it audits the round; on any
+ * other branch no round is under way, and it says so and passes.
  */
 
 import { spawnSync } from 'node:child_process';
@@ -20,17 +20,11 @@ const CHECKS = [
   'npx --no-install @spec-family/spec-brief lint',
   'npx --no-install @spec-family/spec-brief matrix',
   'npx --no-install @spec-family/spec-harness premises',
+  'npx --no-install @spec-family/spec-harness audit --if-round',
 ];
 
-// The branch names spec-harness reads a brief from by default: brief/{id},
-// brief-{id}, and either after one more name and a slash.
-const NAMES_A_BRIEF = /^(?:[^/]+[/])?brief[-/][0-9]/;
-
-const branch = spawnSync('git', ['branch', '--show-current'], { encoding: 'utf8' }).stdout.trim();
-const checks = NAMES_A_BRIEF.test(branch) ? [...CHECKS, 'npx --no-install @spec-family/spec-harness audit'] : CHECKS;
-
 let worst = 0;
-for (const command of checks) {
+for (const command of CHECKS) {
   process.stdout.write(`${NL}$ ${command}${NL}`);
   const { status } = spawnSync(command, { stdio: 'inherit', shell: true });
   const code = status ?? 2;
