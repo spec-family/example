@@ -4,6 +4,7 @@ Instructions for coding agents. spec-graph holds every path and command named
 here to the repository, so this file cannot point at something that is gone.
 
 - The loan desk is `src/loans.js`, and its tests are in `test/`.
+- A loan is renewed by `renew` in `src/renewals.js`.
 - What the desk promises is `docs/spec/lending.md`, and the decisions it keeps
   are in `docs/adr/`. A promise labelled as built names its test.
 - Work happens in rounds. A person approves a brief in `briefs/`, which says
