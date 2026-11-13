@@ -24,4 +24,4 @@ there and that the check could fail.
   each day late.
 
 <!-- @spec-item id="renew" -->
-- `Specified`: a loan can be renewed once, for another 21 days.
+- `Implemented`: a loan can be renewed once, for another 21 days.
