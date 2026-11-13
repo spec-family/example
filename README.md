@@ -107,10 +107,10 @@ Nothing stopped it: the guard is a guardrail, not a gate. The gate is the audit,
 
 ```console
 $ npx --no-install @spec-family/spec-harness audit
-audit of brief 001 from main (d2e76f22adab)
+audit of brief 001 from main (7b6443264f04)
 
 error    briefs/001_charge-a-late-fee.md:7  the round changed src/loans.js, which this brief protects  archive/protected-file
-         revert the change, or record the departure in the brief before archiving it
+         revert the change, or ask the person who approved the brief to rule on it (spec-harness escalate): a signed ruling, which a plugin that verifies rulings reads, lifts this
 
 measured: goals: 1 held, 0 failed · premises: none declared · archive: asked · rulings: none · dependencies: 0 changed, 0 unread
 1 error(s), 0 warning(s), 0 note(s)
@@ -185,7 +185,7 @@ spec-guard claims 1 document
 
 options from .spec-guard.json: claims
 
-5 claims: Implemented 4, Specified 1 · 34ms
+5 claims: Implemented 4, Specified 1 · 20ms
 ✖ 1 claim finding
 ```
 
@@ -205,7 +205,7 @@ spec-graph 8 documents · 13 items · 24 relations · 5 open
     commit "Renew a loan once" is not in the history of HEAD
     → name a commit HEAD reaches, by its subject as written or by the start of its hash
 
-2 errors · 158.77ms
+2 errors · 169.82ms
 ✖ the specification graph is inconsistent
 ```
 
@@ -225,7 +225,7 @@ pull request and every push to `main`, and reads the repository only:
 | Job | Runs | Red on |
 | --- | --- | --- |
 | `specs` | `npm test`, `spec-guard`, `spec-guard claims`, `spec-graph check`, `spec-brief lint`, `spec-brief matrix` | story 2 |
-| `round` | `spec-harness premises`, and `spec-harness audit --if-round`, which audits a brief's branch and passes on any other | story 1 |
+| `round` | `spec-harness premises`, and `spec-harness audit --if-round --require-measured --base "$BASE"`, which audits a brief's branch, measured from the branch it merges into, and passes on any other | story 1 |
 | `readme` | `npm run readme:check`: this README against the stories as they play | neither: it skips a story's branch, which already holds its story |
 
 `main` is green. Each check writes its findings with `--format github`, which
