@@ -28,11 +28,11 @@ requires, computed from the loan as the desk records it today.
 
 ## Invariants
 
-- [ ] `lateFee` is exported from `src/fees.js`
+- [x] `lateFee` is exported from `src/fees.js`
 
 <!-- @assert-count target="src/fees.js" symbol="export function lateFee" min="1" -->
 
 ## Acceptance Criteria
 
-- [ ] a book given back on its due day is charged nothing
-- [ ] a book given back three days late is charged 75 cents
+- [x] a book given back on its due day is charged nothing
+- [x] a book given back three days late is charged 75 cents

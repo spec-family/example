@@ -17,7 +17,7 @@ export function lend(shelf, bookId, memberId, today) {
   if (!shelf.onShelf.has(bookId)) {
     throw new Error(shelf.loans.has(bookId) ? `${bookId} is on loan` : `${bookId} is not on this shelf`);
   }
-  const loan = { bookId, memberId, lentOn: today, dueOn: today + LOAN_DAYS };
+  const loan = { bookId, memberId, lentOn: today, dueOn: today + LOAN_DAYS, fee: 0 };
   shelf.onShelf.delete(bookId);
   shelf.loans.set(bookId, loan);
   return loan;
